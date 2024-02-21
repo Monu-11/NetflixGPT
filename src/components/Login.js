@@ -20,6 +20,7 @@ const Login = () => {
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
+  const photo = useRef(null);
 
   const toggleSignINForm = () => {
     setIsSignForm(!isSignForm);
@@ -45,10 +46,13 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+          const photoURL =
+            photo.current.files.length > 0
+              ? URL.createObjectURL(photo.current.files[0])
+              : "https://lh3.googleusercontent.com/a/AEdFTp5M-MsHxB6sAaKo64xSqCLnWZZBmCeE3KL4CuaorQ=s96-c";
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              "https://lh3.googleusercontent.com/a/AEdFTp5M-MsHxB6sAaKo64xSqCLnWZZBmCeE3KL4CuaorQ=s96-c",
+            photoURL: photoURL,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -79,9 +83,7 @@ const Login = () => {
         email.current.value,
         password.current.value
       )
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
+        .then(() => {
           navigate("/browse");
         })
         .catch((error) => {
@@ -128,6 +130,14 @@ const Login = () => {
           placeholder="Password"
           className="p-4 my-4 w-full bg-gray-700"
         />
+        {!isSignForm && (
+          <input
+            ref={photo}
+            type="file"
+            placeholder="Upload Profile Photo"
+            className="p-4 my-4 w-full bg-gray-700"
+          />
+        )}
         <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
         <button
           className="p-4 my-6 bg-red-700 w-full rounded-lg"
