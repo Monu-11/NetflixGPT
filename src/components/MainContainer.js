@@ -20,4 +20,3 @@ const MainContainer = () => {
 };
 
 export default MainContainer;
-// 1:20 minutes
