@@ -22,4 +22,3 @@ const GptMovieSuggestion = () => {
 };
 
 export default GptMovieSuggestion;
-// 2: 59s
